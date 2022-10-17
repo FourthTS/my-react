@@ -66,6 +66,5 @@ workflows:
       - deploy:
           requires:
             - test
-            - build
           context:
             - github-context
