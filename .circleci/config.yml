@@ -10,27 +10,24 @@ jobs:
       tag: '16.17'
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: yarn
+      - node/install-packages
   test:
     executor:
       name: node/default
       tag: '16.17'
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: yarn
+      - node/install-packages
       - run:
           name: Test << pipeline.git.branch >>
-          command: yarn run test
+          command: npm run test
   build:
     executor:
       name: node/default
       tag: '16.17'
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: yarn
+      - node/install-packages
       - run:
           name: Build << pipeline.git.branch >>
           command: PUBLIC_URL=/${CIRCLE_PROJECT_REPONAME} yarn run build
@@ -38,10 +35,11 @@ jobs:
     executor:
       name: node/default
       tag: '16.17'
+    environment:
+      REPOURL: "<< pipeline.project.git_url >>"
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: yarn
+      - node/install-packages
       - run:
           name: Setup evironment variables
           command: |
@@ -61,7 +59,7 @@ jobs:
             git remote set-url origin https://git:${GITHUB_TOKEN}@github.com${REPOPATH}.git
       - run:
           name: Deploy to gh-pages
-          command: yarn run deploy
+          command: npm run deploy
 
 workflows:
   test_and_deploy_my_app:
