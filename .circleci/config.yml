@@ -21,16 +21,6 @@ jobs:
       - run:
           name: Test << pipeline.git.branch >>
           command: npm run test
-  build:
-    executor:
-      name: node/default
-      tag: '16.17'
-    steps:
-      - checkout
-      - node/install-packages
-      - run:
-          name: Build << pipeline.git.branch >>
-          command: PUBLIC_URL=/${CIRCLE_PROJECT_REPONAME} npm run build
   deploy:
     executor:
       name: node/default
@@ -49,6 +39,11 @@ jobs:
           command: |
             git config --global user.email "fourth4884@gmail.com"
             git config --global user.name "FourthTS"
+
+      - run:
+          name: Build << pipeline.git.branch >>
+          command: PUBLIC_URL=/${CIRCLE_PROJECT_REPONAME} npm run build
+
       - run:
           name: Setup Github token
           command: |
@@ -66,9 +61,6 @@ workflows:
     jobs:
       - initial
       - test:
-          requires:
-            - initial
-      - build:
           requires:
             - initial
       - deploy:
