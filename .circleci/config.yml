@@ -30,7 +30,7 @@ jobs:
       - node/install-packages
       - run:
           name: Build << pipeline.git.branch >>
-          command: PUBLIC_URL=/${CIRCLE_PROJECT_REPONAME} yarn run build
+          command: PUBLIC_URL=/${CIRCLE_PROJECT_REPONAME} npm run build
   deploy:
     executor:
       name: node/default
